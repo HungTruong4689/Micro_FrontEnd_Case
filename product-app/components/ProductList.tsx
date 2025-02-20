@@ -1,28 +1,58 @@
-import React from 'react'
+// import React from 'react'
+import "tailwindcss/tailwind.css";
 
-const ProductList: React.FC = () => {
-  const products = [
-    { id: 1, title: 'Cool Sneakers', price: 49.99 },
-    { id: 2, title: 'Stylish Jacket', price: 89.99 },
-    { id: 3, title: 'Wireless Headphones', price: 129.99 },
-  ]
-
-  return (
-    <section className="bg-white rounded-md shadow-md p-6">
-      <h2 className="text-2xl font-semibold mb-4">Product List</h2>
-      <ul className="space-y-4">
-        {products.map(item => (
-          <li
-            key={item.id}
-            className="p-4 rounded-md border border-gray-200 hover:bg-gray-50 transition"
-          >
-            <h3 className="font-bold text-lg text-gray-800">{item.title}</h3>
-            <p className="text-gray-600">${item.price}</p>
-          </li>
-        ))}
-      </ul>
-    </section>
-  )
+interface Product {
+  id: number;
+  title: string;
+  price: number;
 }
 
-export default ProductList
+
+  
+  
+
+
+
+import { useDispatch } from "react-redux";
+
+
+import { Button } from "antd";
+
+import { useGetProductsQuery, addItem, AppDispatch } from "host/store";
+
+// ✅ Define Product Type
+interface Product {
+  id: number;
+  title: string;
+  price: number;
+  image?: string; // Optional image field (depends on API)
+}
+
+// ✅ ProductList Component
+const ProductList: React.FC = () => {
+  const dispatch = useDispatch<AppDispatch>(); // Typed dispatch
+  const { data: products, isLoading, error } = useGetProductsQuery<Product[]>(); // Typed API response
+
+  console.log("products",products)
+
+  if (isLoading) return <p>Loading products...</p>;
+  if (error) return <p>Error fetching products</p>;
+
+  return (
+    <div>
+      <h2>Product List</h2>
+      {products?.map((product:Product) => (
+        <div key={product.id}>
+          <p>{product.title} - ${product.price.toFixed(2)}</p>
+          <Button type="primary" onClick={() => dispatch(addItem(product))}>
+            Add to Basket
+          </Button>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default ProductList;
+
+

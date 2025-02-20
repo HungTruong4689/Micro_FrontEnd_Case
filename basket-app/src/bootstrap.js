@@ -1,17 +1,41 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React, { useEffect, useState } from "react";
+import ReactDOM from "react-dom/client";
+import { Provider } from "react-redux";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+function RootComponent() {
+  const [store, setStore] = useState(null);
+
+  // Dynamically import the store from host_app
+  useEffect(() => {
+    import("host/store").then((mod) => {
+      console.log("✅ Imported Redux Store in Basket App:", mod.store);
+      setStore(mod.store);
+    }).catch((error) => {
+      console.error("❌ Error loading Redux store:", error);
+    });
+  }, []);
+
+  if (!store) {
+    return <div>Loading Redux Store...</div>;
+  }
+
+  return (
+    <Provider store={store}>
+      <App />
+    </Provider>
+  );
+}
+
+// Initialize React Root
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <RootComponent />
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+// If you want to start measuring performance in your app
 reportWebVitals();

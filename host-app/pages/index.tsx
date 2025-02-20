@@ -8,6 +8,19 @@ const Basket = dynamic(() => import('basketApp/Basket'), { ssr: false });
 
 
 export default function Home() {
+
+  const products = [
+    { id: 1, title: 'Cool Sneakers Test', price: 49.99 },
+    { id: 2, title: 'Stylish Jacket', price: 89.99 },
+    { id: 3, title: 'Wireless Headphones', price: 129.99 },]
+    const baskets = [
+    "Apple",
+    "Banana",
+    "Orange",
+    "Grapes",
+    "Pineapple",
+    
+  ]
   return (
     <div className="min-h-screen bg-gray-900 text-white flex flex-col">
       {/* Header */}
@@ -17,8 +30,13 @@ export default function Home() {
 
       {/* Main Content */}
       <main className="flex-grow bg-gray-100 text-gray-800 px-4 sm:px-8 md:px-16 py-8">
-       <ProductList />
-       <Basket />
+        <div className='mb-8'>
+          <ProductList />
+        </div>
+       <div>
+          <Basket baskets={baskets}/>
+       </div>
+       
       </main>
 
       {/* Footer (optional) */}

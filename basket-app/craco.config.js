@@ -11,9 +11,14 @@ module.exports = {
           exposes: {
             "./Basket": "./src/components/Basket.jsx", // ✅ Ensure this is correct
           },
+          remotes: {
+    host: "host_app@http://localhost:3000/_next/static/chunks/remoteEntry.js", // Import home app store
+  },
           shared: {
             react: { singleton: true, requiredVersion: "^18.3.1",eager:false,import:"react" },
-            "react-dom": { singleton: true, requiredVersion: "^18.3.1",eager:false,import:"react-dom" },
+            "react-dom": { singleton: true, requiredVersion: "^18.3.1",eager:false,import:"react-dom",
+              
+             },
           },
         })
       );

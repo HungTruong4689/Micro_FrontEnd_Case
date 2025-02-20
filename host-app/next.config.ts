@@ -7,7 +7,10 @@ const nextConfig: NextConfig = {
    webpack(config) {
     config.plugins.push(
       new NextFederationPlugin({
-        name: 'home_app',
+        name: 'host_app',
+         exposes: {
+    "./store": "./store/index", // Expose the store
+  },
         remotes: {
           // 'productApp' matches how you define the remote
           productApp: 'product_app@http://localhost:3001/_next/static/chunks/remoteEntry.js',
@@ -15,6 +18,11 @@ const nextConfig: NextConfig = {
            basketApp: "basket_app@http://localhost:3002/remoteEntry.js",
         },
         filename: 'static/chunks/remoteEntry.js',
+        shared:{
+          
+"@reduxjs/toolkit": {singleton: true, requiredVersion: false},
+"react-redux":  {singleton: true, requiredVersion: false},
+        },
         
         extraOptions: {}
       })

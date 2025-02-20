@@ -1,19 +1,39 @@
-import React from "react";
+import { useEffect,useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchBasket, selectBasketItems, removeItem, decreaseItemQuantity } from "host/store";
 
 const Basket = () => {
+  const dispatch = useDispatch();
+  const items = useSelector(selectBasketItems);
+  
+
+  useEffect(() => {
+    dispatch(fetchBasket()); // ✅ Load basket from API when the app starts
+  }, [dispatch]);
+
+  console.log("🛒 Basket Items:", items);
+  
+  
+
   return (
-    <div className="p-4 border rounded-md bg-white shadow-md">
-      <h2 className="text-xl font-bold">Basket Component</h2>
-      <p>Your basket items will be displayed here.</p>
-        <section className="bg-white p-4 rounded-md shadow-md">
-        <h2 className="text-xl font-semibold mb-2">Your Basket</h2>
-        <ul className="list-disc pl-5 space-y-2">
-          <li>Product A</li>
-          <li>Product B</li>
-          <li>Product C</li>
+    <section className="bg-white p-6 shadow-md rounded-md">
+      <h2 className="text-2xl font-semibold mb-4">Your Basket</h2>
+      {items.length === 0 ? (
+        <p>No items in the basket.</p>
+      ) : (
+        <ul className="space-y-4">
+          {items.map((item) => (
+            <li key={item.id} className="p-4 rounded-md border border-gray-200">
+              <h3 className="font-bold">{item.title}</h3>
+              <p>${item.price}</p>
+              <p>Quantity: {item.quantity}</p>
+              <button onClick={() => dispatch(decreaseItemQuantity(item.id))}>-</button>
+              <button onClick={() => dispatch(removeItem(item.id))}>Remove</button>
+            </li>
+          ))}
         </ul>
-      </section>
-    </div>
+      )}
+    </section>
   );
 };
 
