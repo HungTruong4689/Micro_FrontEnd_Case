@@ -77,7 +77,7 @@ This case study is designed to evaluate frontend developers' ability to build a 
 
 1. **Clone the repository**
    ```sh
-   git clone https://github.com/your-repo/micro_frontend_case.git
+   git clone https://github.com/HungTruong4689/Micro_FrontEnd_Case.git
    cd micro_frontend_case
    ```
 
