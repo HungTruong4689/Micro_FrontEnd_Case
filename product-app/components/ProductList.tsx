@@ -1,37 +1,27 @@
 // import React from 'react'
 import "tailwindcss/tailwind.css";
 
-interface Product {
-  id: number;
-  title: string;
-  price: number;
-}
-
-
-  
-  
-
-
-
-import { useDispatch } from "react-redux";
-
-
-import { Button } from "antd";
-
-import { useGetProductsQuery, addItem, AppDispatch } from "host/store";
+import Product from "./Product";
+import { useGetProductsQuery } from "host/store";
 
 // ✅ Define Product Type
-interface Product {
+interface ProductProps {
   id: number;
   title: string;
   price: number;
-  image?: string; // Optional image field (depends on API)
+  image?: string;
+  category?:string;
+  description?:string;
+  rating?:{
+    rate:number;
+    count:number;
+  }
 }
 
 // ✅ ProductList Component
 const ProductList: React.FC = () => {
-  const dispatch = useDispatch<AppDispatch>(); // Typed dispatch
-  const { data: products, isLoading, error } = useGetProductsQuery<Product[]>(); // Typed API response
+  
+  const { data: products, isLoading, error } = useGetProductsQuery<ProductProps[]>(); // Typed API response
 
   console.log("products",products)
 
@@ -39,16 +29,25 @@ const ProductList: React.FC = () => {
   if (error) return <p>Error fetching products</p>;
 
   return (
-    <div>
-      <h2>Product List</h2>
-      {products?.map((product:Product) => (
-        <div key={product.id}>
-          <p>{product.title} - ${product.price.toFixed(2)}</p>
-          <Button type="primary" onClick={() => dispatch(addItem(product))}>
-            Add to Basket
-          </Button>
-        </div>
-      ))}
+    <div className="bg-gray-100 p-4 sm:p-6 rounded-lg shadow-md">
+      
+      
+      {/* Responsive Grid Layout */}
+      <div className="grid grid-cols-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 mt-4">
+        {products?.map((product:ProductProps) => (
+          <Product
+            key={product.id}
+            id={product.id}
+            title={product.title}
+            price={product.price}
+            image={product.image}
+            category={product.category}
+            description={product.description}
+            rating={product.rating}
+           
+          />
+        ))}
+      </div>
     </div>
   );
 };
