@@ -118,6 +118,16 @@ This case study is designed to evaluate frontend developers' ability to build a 
     cd ../json-server
     json-server --watch db.json --port 5000
     ```
+
+## Responsive UI
+
+The responsive user interface of this project is meticulously crafted using Tailwind CSS, a highly customizable, utility-first CSS framework. Tailwind CSS empowers developers to build responsive designs efficiently by providing a comprehensive set of utility classes that can be directly applied to HTML elements.
+
+### Key Features
+
+
+- **Responsive Breakpoints**: Tailwind CSS includes predefined responsive breakpoints (`sm`, `md`, `lg`, `xl`, `2xl`) that enable the application of different styles at various screen sizes, ensuring a seamless experience across devices.
+- **Customization**: Tailwind CSS can be customized through a configuration file (`tailwind.config.js`), allowing for the definition of custom breakpoints, colors, spacing, and more to match the project's design requirements.
     
 
 
